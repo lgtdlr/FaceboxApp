@@ -12,7 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
-/app/src/main/java/com/example/facebox/MainActivity.java
 # built application files
 *.apk
 *.ap_
