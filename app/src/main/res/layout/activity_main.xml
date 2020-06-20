@@ -10,12 +10,13 @@
         android:id="@+id/mainTeachTextView"
         android:layout_width="232dp"
         android:layout_height="130dp"
-        android:layout_marginTop="28dp"
         android:text="@string/main_teach_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/goToTeachButton"
-        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.049" />
 
     <Button
         android:id="@+id/goToTeachButton"

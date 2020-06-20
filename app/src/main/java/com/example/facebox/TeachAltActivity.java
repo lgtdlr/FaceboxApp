@@ -42,7 +42,7 @@ public class TeachAltActivity extends AppCompatActivity {
 
 
     OkHttpClient client = new OkHttpClient();
-    static final String BASE_URL = "http://192.168.0.7:8080/facebox/teach";
+    static final String BASE_URL = "http://192.168.102.158:8080/facebox/teach";
     public static final MediaType IMAGE = MediaType.get("multipart/form-data; charset=utf-8");
     private static final int PICK_IMAGE = 100;
 
