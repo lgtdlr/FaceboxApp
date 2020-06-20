@@ -7,7 +7,7 @@
     tools:context=".TeachAltActivity">
 
     <EditText
-        android:id="@+id/nameEditTextAlt"
+        android:id="@+id/urlEditTextAlt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -24,13 +24,14 @@
         android:id="@+id/nameTextViewAlt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="44dp"
         android:text="Name"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nameEditTextAlt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.065" />
 
     <Button
         android:id="@+id/buttonAlt"
@@ -56,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372" />
+        app:layout_constraintVertical_bias="0.349" />
 
     <ImageView
         android:id="@+id/imageSelectedAlt"
@@ -88,11 +89,11 @@
         android:focusable="true" />
 
     <EditText
-        android:id="@+id/urlEditTextAlt"
+        android:id="@+id/nameEditTextAlt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textUri"
         app:layout_constraintBottom_toTopOf="@+id/nameEditText"
@@ -106,7 +107,7 @@
         android:id="@+id/urlTextViewAlt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="60dp"
         android:text="URL"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,6 +115,6 @@
         app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.084" />
+        app:layout_constraintVertical_bias="0.196" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
