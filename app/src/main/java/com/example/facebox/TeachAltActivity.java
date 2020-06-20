@@ -33,6 +33,9 @@ import okhttp3.Response;
 
 public class TeachAltActivity extends AppCompatActivity {
 
+    private static final String BASE_URL = "http://192.168.102.158:8080/facebox/teach";
+    private static final int PICK_IMAGE = 100;
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     private static Button button;
     private static TextView postResponseText;
@@ -40,11 +43,7 @@ public class TeachAltActivity extends AppCompatActivity {
     private static EditText urlEditText, nameEditText;
     private static String urlInput, nameInput;
 
-
-    OkHttpClient client = new OkHttpClient();
-    static final String BASE_URL = "http://192.168.102.158:8080/facebox/teach";
-    public static final MediaType IMAGE = MediaType.get("multipart/form-data; charset=utf-8");
-    private static final int PICK_IMAGE = 100;
+    private static OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +54,25 @@ public class TeachAltActivity extends AppCompatActivity {
         button = (Button)findViewById(R.id.buttonAlt);
         postResponseText = (TextView)findViewById(R.id.postResponseTextAlt);
         imageSelected = (ImageView) findViewById(R.id.imageSelectedAlt);
+
     }
 
     public void onUploadClick(View view) {
         nameInput = nameEditText.getText().toString();
         urlInput = urlEditText.getText().toString();
+        if(nameInput.equals("")){
+            postResponseText.setText("Make sure a name has been entered before selecting a file");
+            return;
+        }
 
         selectImage();
     }
 
-    public void onPostClick(View view) {
+    public void onPostClick(View view) throws IOException {
         nameInput = nameEditText.getText().toString();
         urlInput = urlEditText.getText().toString();
+
+        postResponseText.setText(postUrl(BASE_URL, urlInput, nameInput));
     }
 
     public void selectImage() {
@@ -86,20 +92,19 @@ public class TeachAltActivity extends AppCompatActivity {
             final String fullPhotoPath = getPath(this, fullPhotoUri);
             imageSelected.setImageURI(fullPhotoUri);
 
-            File file = new File(fullPhotoPath); //Same as fullPhotoUri.toString(
+            File file = new File(fullPhotoPath);
 
             if (uploadFile(BASE_URL, file)){
                 postResponseText.setText("Successful");
             } else {
-                postResponseText.setText("Failed");
+                return;
             }
 
         }
     }
 
-    public static Boolean uploadFile(String serverURL, File file) {
-
-        OkHttpClient client = new OkHttpClient();
+    public Boolean uploadFile(String serverURL, File file) {
+        final Intent teachIntent = new Intent(this, TeachAltActivity.class);
 
         try {
 
@@ -119,7 +124,7 @@ public class TeachAltActivity extends AppCompatActivity {
                 public void onFailure(final Call call, final IOException e) {
                     // Handle the error
                     e.printStackTrace();
-                    postResponseText.setText("Failure"); //Should cause a crash
+                    startActivity(teachIntent);
                     return;
                 }
 
@@ -127,8 +132,7 @@ public class TeachAltActivity extends AppCompatActivity {
                 public void onResponse(final Call call, final Response response) throws IOException {
                     if (!response.isSuccessful()) {
                         // Handle the error
-                        postResponseText.setText("Fail"); //Should cause a crash
-                        return;
+                        startActivity(teachIntent);
                     }
                     // Upload successful
                 }
@@ -142,16 +146,40 @@ public class TeachAltActivity extends AppCompatActivity {
         return false;
     }
 
-//    String postFile(String endpoint, String url, String name) throws IOException {
-//        RequestBody body = RequestBody.create(url);
-//        Request request = new Request.Builder()
-//                .url(endpoint)
-//                .post(body)
-//                .build();
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.body().string();
-//        }
-//    }
+    String postUrl(String serverUrl, String sourceUrl, String name) throws IOException {
+        final Intent teachIntent = new Intent(this, TeachAltActivity.class);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("name", name)
+                .addFormDataPart("url", sourceUrl)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(serverUrl)
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                // Handle the error
+                e.printStackTrace();
+                startActivity(teachIntent);
+                return;
+            }
+
+            @Override
+            public void onResponse(final Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    // Handle the error
+                    startActivity(teachIntent);
+                }
+                // Upload successful
+            }
+        });
+        return "Success";
+    }
 
     public static String getPath(final Context context, final Uri uri)
     {
