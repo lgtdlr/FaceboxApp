@@ -28,7 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTeachClick(View view) {
         //start new activity
-        Intent teachIntent = new Intent(this, TeachActivity.class);
+        Intent teachIntent = new Intent(this, TeachAltActivity.class);
         startActivity(teachIntent);
+    }
+
+    public void onIdentifyClick(View view){
+        Intent identifyIntent = new Intent(this, IdentifyActivity.class);
+        startActivity(identifyIntent);
     }
 }

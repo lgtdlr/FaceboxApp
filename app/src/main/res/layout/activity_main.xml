@@ -29,4 +29,29 @@
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="onTeachClick"/>
 
+    <TextView
+        android:id="@+id/mainIdentifyTextView"
+        android:layout_width="232dp"
+        android:layout_height="130dp"
+        android:text="Once Facebox has learned some faces, you can ask it to identify them in images. Facebox will return an array of faces that it detected, along with their position within the image, and the name and id if the face matched. "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/goToIdentifyButton"
+        app:layout_constraintHorizontal_bias="0.725"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainTeachTextView"
+        app:layout_constraintVertical_bias="0.156" />
+
+    <Button
+        android:id="@+id/goToIdentifyButton"
+        android:layout_width="99dp"
+        android:layout_height="132dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:onClick="onIdentifyClick"
+        android:text="Identify"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goToTeachButton"
+        app:layout_constraintVertical_bias="0.065" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
