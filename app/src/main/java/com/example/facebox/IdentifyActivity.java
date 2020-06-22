@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -128,6 +131,14 @@ public class IdentifyActivity extends AppCompatActivity {
                 p.hide();
                 selectedImage.isOpaque();
                 infoText.setText(string);
+
+                //Parse JSONObject here
+
+                try {
+                    JSONObject mainObject = new JSONObject(string);
+                    JSONArray array = mainObject.getJSONArray("faces");
+                } catch (Exception e) { }
+
             }else {
                 p.show();
             }
