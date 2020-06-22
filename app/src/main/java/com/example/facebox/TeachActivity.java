@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ public class TeachActivity extends AppCompatActivity {
     EditText nameEditText;
 
     private static final int PICK_IMAGE = 100;
+    public static final String TAG = "LOG_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,12 @@ public class TeachActivity extends AppCompatActivity {
 
     public void onPostClick(View view) {
 
-                //URL POST (will not work with MEC atm since it requires access to internet)
-                AndroidNetworking.post("http://192.168.102.158:8080/facebox/teach")
-                        .addBodyParameter("url", urlEditText.getText().toString())
-                        .addBodyParameter("name", nameEditText.getText().toString())
-                        .addHeaders("Accept","application/json; charset=utf-8")
-                        .setContentType("application/json; charset=utf-8")
+        //URL POST (will not work with MEC atm since it requires access to internet)
+        AndroidNetworking.post("http://192.168.102.158:8080/facebox/teach")
+                .addBodyParameter("url", urlEditText.getText().toString())
+                .addBodyParameter("name", nameEditText.getText().toString())
+                .addHeaders("Accept","application/json; charset=utf-8")
+                .setContentType("application/json; charset=utf-8")
 //                        .addBodyParameter("id", "john.jpg")
 //                        .addHeaders("name", "John Lennon")
 //                        .addHeaders("id", "john.jpg")
@@ -70,33 +72,34 @@ public class TeachActivity extends AppCompatActivity {
 //                        .addQueryParameter("id", "john.jpg")
 //                        .addBodyParameter("file", "@/storage/emulated/0/Download/john.jpg")
 //                        .addFileBody(john)
-                        .setPriority(Priority.LOW)
-                        .build()
-                        .getAsJSONObject(new JSONObjectRequestListener() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // do anything with response
-                                try {
-                                    if (response.getBoolean("success")){
-                                        postResponseText.setText("Success");
-                                    }
-                                    else {
-                                        postResponseText.setText("Failed");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    postResponseText.setText((e.getMessage()));
-                                }
+                .setPriority(Priority.LOW)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // do anything with response
+                        try {
+                            if (response.getBoolean("success")){
+                                Log.i(TAG, response.toString());
+                                postResponseText.setText("Success");
                             }
-                            @Override
-                            public void onError(ANError error) {
-                                // handle error
-                                postResponseText.setText(error.getMessage());
-                                postResponseText.setText(error.getErrorBody());
-                                //postResponseText.setText(error.getErrorDetail());
+                            else {
+                                postResponseText.setText("Failed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            postResponseText.setText((e.getMessage()));
+                        }
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        postResponseText.setText(error.getMessage());
+                        postResponseText.setText(error.getErrorBody());
+                        //postResponseText.setText(error.getErrorDetail());
 
-                            }
-                        });
+                    }
+                });
     }
 
     public void selectImage() {
@@ -129,6 +132,7 @@ public class TeachActivity extends AppCompatActivity {
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            Log.i(TAG, response.toString());
                             try {
                                 if (response.getBoolean("success")){
                                     postResponseText.setText("Success");

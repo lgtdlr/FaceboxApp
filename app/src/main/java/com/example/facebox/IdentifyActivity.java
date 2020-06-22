@@ -89,7 +89,6 @@ public class IdentifyActivity extends AppCompatActivity {
             RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("file", file.getName(), RequestBody.create(file, MediaType.get("image/jpeg")))
                     .build();
-
             Request request = new Request.Builder()
                     .url(serverURL)
                     .post(requestBody)
