@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -103,9 +106,13 @@ public class IdentifyActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(PostParameters... params) {
             try {
+                Bitmap bitmap = ((BitmapDrawable) selectedImage.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageInByte = baos.toByteArray();
                 //error here...
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("file", params[0].file.getName(), RequestBody.create(params[0].file, MediaType.get("image/jpeg")))
+                        .addFormDataPart("file", params[0].file.getName(), RequestBody.create(MediaType.parse("image/*jpg"), imageInByte))
                         .build();
                 Request request = new Request.Builder()
                         .url(params[0].string)
@@ -130,13 +137,15 @@ public class IdentifyActivity extends AppCompatActivity {
             if(selectedImage !=null) {
                 p.hide();
                 selectedImage.isOpaque();
-                infoText.setText(string);
-
                 //Parse JSONObject here
+                Log.i("TAG_1", string);
 
                 try {
                     JSONObject mainObject = new JSONObject(string);
-                    JSONArray array = mainObject.getJSONArray("faces");
+                    if(mainObject.getBoolean("success")) {
+                        JSONArray faces = mainObject.getJSONArray("faces");
+                        infoText.setText("Name: " + faces.getJSONObject(0).getString("name") + ", Confidence: " + faces.getJSONObject(0).getDouble("confidence"));
+                    }
                 } catch (Exception e) { }
 
             }else {
