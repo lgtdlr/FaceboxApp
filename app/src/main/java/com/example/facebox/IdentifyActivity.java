@@ -86,6 +86,7 @@ public class IdentifyActivity extends AppCompatActivity {
 
         try {
 
+            //error here...
             RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("file", file.getName(), RequestBody.create(file, MediaType.get("image/jpeg")))
                     .build();
